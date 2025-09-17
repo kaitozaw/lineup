@@ -37,19 +37,19 @@ public class Game
             Console.WriteLine("Error: The file 'GameState.json' was not found.");
             return;
         }
-        catch (JsonException ex)
+        catch (JsonException e)
         {
-            Console.WriteLine($"JSON parse error: {ex.Message}");
+            Console.WriteLine($"JSON parse error: {e.Message}");
             return;
         }
-        catch (NotSupportedException ex)
+        catch (NotSupportedException e)
         {
-            Console.WriteLine($"Serialization type error: {ex.Message}");
+            Console.WriteLine($"Serialization type error: {e.Message}");
             return;
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
-            Console.WriteLine($"An I/O error occurred: {ex.Message}");
+            Console.WriteLine($"An I/O error occurred: {e.Message}");
             return;
         }
     }
@@ -139,8 +139,8 @@ public class Game
     {
         GameCategory gameCategory = new TestGameCategoryConfigurator().Get();
         IGamePolicy gamePolicy = GamePolicyFactory.Create(gameCategory);
-        PlayMode playMode = new TestPlayModeConfigurator().Get();
-        GridSize gridSize = new TestGridSizeConfigurator().Get();
+        PlayMode playMode = gamePolicy.ConfigurePlayMode(new TestPlayModeConfigurator());
+        GridSize gridSize = gamePolicy.ConfigureGridSize(new TestGridSizeConfigurator());
         gameState = new GameState(gameCategory, gamePolicy, playMode, gridSize);
 
         Console.Clear();
@@ -158,17 +158,17 @@ public class Game
             {
                 if (!human.TryParseCommand(gameState.GamePolicy, part, gameState.Grid.Columns, out Command command))
                 {
-                    endMessage = "Invalid command.";
+                    endMessage = "Invalid move.";
                     break;
                 }
                 if (command.DiscType is not DiscType discType || command.Column is not int column)
                 {
-                    endMessage = "Invalid command.";
+                    endMessage = "Invalid move.";
                     break;
                 }
                 if (!this.TryExecuteMove(human, discType, column))
                 {
-                    endMessage = "Invalid command.";
+                    endMessage = "Invalid move.";
                     break;
                 }
                 human.ConsumeDiscInventory(discType);
@@ -318,21 +318,21 @@ public class Game
             Console.ReadKey(true);
             return;
         }
-        catch (JsonException ex)
+        catch (JsonException e)
         {
-            gameState.Ui.ShowStatus($"JSON parse error: {ex.Message}. Press any key to continue...");
+            gameState.Ui.ShowStatus($"JSON parse error: {e.Message}. Press any key to continue...");
             Console.ReadKey(true);
             return;
         }
-        catch (NotSupportedException ex)
+        catch (NotSupportedException e)
         {
-            gameState.Ui.ShowStatus($"Serialization type error: {ex.Message}. Press any key to continue...");
+            gameState.Ui.ShowStatus($"Serialization type error: {e.Message}. Press any key to continue...");
             Console.ReadKey(true);
             return;
         }
-        catch (IOException ex)
+        catch (IOException e)
         {
-            gameState.Ui.ShowStatus($"An I/O error occurred: {ex.Message}. Press any key to continue...");
+            gameState.Ui.ShowStatus($"An I/O error occurred: {e.Message}. Press any key to continue...");
             Console.ReadKey(true);
             return;
         }
