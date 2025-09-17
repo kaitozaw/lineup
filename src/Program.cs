@@ -10,9 +10,7 @@ public static class Program
         {
             try
             {
-                ConsoleMainMenuConfigurator consoleMainMenuConfigurator = new ConsoleMainMenuConfigurator();
-                MainMenu mainMenu = consoleMainMenuConfigurator.Get();
-
+                MainMenu mainMenu = new ConsoleMainMenuConfigurator().Get();
                 switch (mainMenu)
                 {
                     case MainMenu.New:
