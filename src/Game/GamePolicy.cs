@@ -58,7 +58,7 @@ public abstract class GamePolicyBase : IGamePolicy
 public sealed class ClassicGamePolicy : GamePolicyBase
 {
     public override GridSize ConfigureGridSize(IConfigurator<GridSize> gridConfigurator) => gridConfigurator.Get();
-    public override IReadOnlyCollection<DiscType> AllowedDiscTypes { get; } = new[] { DiscType.Ordinary, DiscType.Boring, DiscType.Magnetic };
+    public override IReadOnlyCollection<DiscType> AllowedDiscTypes { get; } = new[] { DiscType.Ordinary, DiscType.Boring, DiscType.Magnetic, DiscType.Exploding };
 }
 
 // Game policy enabling basic rules.

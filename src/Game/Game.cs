@@ -12,7 +12,7 @@ public class Game
 
     public void Initiate()
     {
-        GameCategory gameCategory = GameCategory.Classic;
+        GameCategory gameCategory = new ConsoleGameCategoryConfigurator().Get();
         IGamePolicy gamePolicy = GamePolicyFactory.Create(gameCategory);
         PlayMode playMode = gamePolicy.ConfigurePlayMode(new ConsolePlayModeConfigurator());
         GridSize gridSize = gamePolicy.ConfigureGridSize(new ConsoleGridSizeConfigurator());
